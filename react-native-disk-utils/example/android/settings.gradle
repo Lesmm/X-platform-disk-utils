@@ -1,0 +1,12 @@
+rootProject.name = 'example'
+apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
+include ':app'
+includeBuild('../node_modules/@react-native/gradle-plugin')
+
+
+
+// include project and set its projectDir
+def projectModulePath = rootProject.projectDir.parentFile.parentFile.parentFile.path + "/disk_utils_android/"
+println("【X】##### setting project: disk_utils_android with path: ${projectModulePath}")
+include ":disk_utils_android"
+project(":disk_utils_android").projectDir = new File(projectModulePath)

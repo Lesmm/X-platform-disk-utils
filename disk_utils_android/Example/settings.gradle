@@ -1,0 +1,9 @@
+rootProject.name = "example"
+
+include ':app'
+
+// include project and set its projectDir
+def projectModulePath = rootProject.projectDir.parentFile.parentFile.path + "/disk_utils_android/"
+println("【X】##### setting project: disk_utils_android with path: ${projectModulePath}")
+include ":disk_utils_android"
+project(":disk_utils_android").projectDir = new File(projectModulePath)

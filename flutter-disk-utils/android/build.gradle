@@ -1,0 +1,64 @@
+println("【X】Configuring me in module ...")
+
+group 'com.xpel.disk.flutter_disk_utils'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext.kotlin_version = '1.7.10'
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.2.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion 31
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    defaultConfig {
+        minSdkVersion 24
+    }
+}
+
+dependencies {
+    if (rootProject.findProject(':disk_utils_android') != null) {
+        implementation project(':disk_utils_android')
+    } else {
+        // Tell the subproject ...
+        // rootProject.extensions.diskUtilsImplementation = "xxx.xxx.xxx:xxx:1.0.0"
+        if (rootProject.extensions.findByName('diskUtilsImplementation') != null) {
+            def diskUtilsImplementation = rootProject.extensions.diskUtilsImplementation
+            implementation "$diskUtilsImplementation"
+            println("🌿 Use the implementation specified by root: " + diskUtilsImplementation)
+        } else {
+            implementation 'com.github.Lesmm:X-platform-disk-utils:1.0.0' // https://jitpack.io
+        }
+    }
+}

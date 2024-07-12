@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '10.0'
+
+target 'disk_utils_ios_Example' do
+  pod 'disk_utils_ios', :path => '../'
+
+  target 'disk_utils_ios_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

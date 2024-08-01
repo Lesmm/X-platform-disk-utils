@@ -20,6 +20,11 @@ DiskUtils;
 
 # Creation
 
+# https://reactnative.dev/docs/native-modules-setup
+# https://www.npmjs.com/package/create-react-native-library
+# https://www.npmjs.com/package/create-react-native-module
+
+
 `$ npx create-react-native-module --generate-example DiskUtils`
 
 
@@ -135,6 +140,47 @@ module.exports = mergeConfig(getDefaultConfig(__dirname), config)
         jvmTarget = gradle.gradleVersion.matches("8.+") ? '17' : '1.8'
     }
 ```
+
+
+## Error 5. Plugin with id 'com.facebook.react.rootproject' not found.
+How to fix? In Root build.gradle, specify the $kotlinVersion:
+classpath("org.jetbrains.kotlin:kotlin-gradle-plugin") -> classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
+
+
+
+## Error 6. Plugin with id 'com.facebook.react.rootproject' not found.
+Happened when change 'distributionUrl=https\://xxx/gradle-8.6-all.zip' to 'distributionUrl=https\://xxx/gradle-7.5-all.zip' in gradle-wrapper.properties
+How to fix? In Root build.gradle, change as followeding:
+apply plugin: "com.facebook.react.rootproject" -> apply plugin: "com.facebook.react"
+
+
+
+## Error 7. Calling `[node, /../node_modules/@react-native-community/cli/build/bin.js, config]` finished with an exception. Error message: groovy.json.JsonException: Unable to determine the current character, it is not a string, number, array, or object ... Config Validation Error: "project.ios.automaticPodsInstallation" is not allowed 
+
+In example/react-native.config.js, just comment the `project ... ios ... ` block as followed:
+
+    ```
+    module.exports = {
+      // project: {
+      //   ios: {
+      //     automaticPodsInstallation: true,
+      //   },
+      // },
+      dependencies: {
+        [pkg.name]: {
+          root: path.join(__dirname, '..'),
+        },
+      },
+    };
+    ```
+
+
+
+## Error 8. MainApplication.kt, Unresolved reference: ReactHost & override val reactHost: ReactHost error
+Cause download react-native version in package.json, so you should:
+1. delete method `override val reactHost: ReactHost`
+2. method `override val reactNativeHost: ReactNativeHost = `  change to `override fun getReactNativeHost(): ReactNativeHost { \n return object ...`
+
 
 
 ## iOS
